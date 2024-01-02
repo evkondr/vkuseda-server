@@ -1,5 +1,5 @@
-import Router, { Request, Response } from 'express';
-import MenuController from './controllers/menuController';
+import Router from 'express';
+import MenuController from '../controllers/menuController';
 
 const router = Router();
 
