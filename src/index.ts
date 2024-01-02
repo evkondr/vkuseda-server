@@ -8,6 +8,9 @@ dotenv.config();
 
 const { PORT } = process.env;
 const app = express();
+
+app.use(express.json());
+
 app.use('/api/categories', categoryRoute);
 
 app.get('/', (req: Request, res: Response) => {

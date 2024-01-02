@@ -10,7 +10,7 @@ export default class Categories {
     id: string;
 
   @Column({ type: 'varchar', length: 30 })
-  @Length(1, 30)
+  @Length(2, 30)
     name: string;
 
   @OneToMany(() => MenuItems, (menuItem) => menuItem.category)
