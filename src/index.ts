@@ -1,16 +1,27 @@
 import express, { Request, Response } from 'express';
+import 'reflect-metadata';
+import dotenv from 'dotenv';
 import categoryRoute from './routes/categoryRoute';
-import dotenv from 'dotenv'
+import AppDataSource from './dbConnection';
 
-dotenv.config()
+dotenv.config();
 
-const PORT = process.env.PORT
+const { PORT } = process.env;
 const app = express();
-app.use('/api/categories', categoryRoute)
+app.use('/api/categories', categoryRoute);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send("VKUSEDA");
+  res.send('VKUSEDA');
 });
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`)
-});
+const startServer = async () => {
+  try {
+    await AppDataSource.initialize();
+    console.log('DB connected successfully');
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+startServer();

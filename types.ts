@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-shadow */
 export type TCategory = {
   id: string,
   name: string
@@ -11,4 +13,9 @@ export type TMenuItem = {
   author: string,
   createdAt: Date
   modifiedAt: Date
-} 
+}
+export enum UserRole {
+  ADMIN = 'admin',
+  EDITOR = 'editor',
+  USER = 'user'
+}
