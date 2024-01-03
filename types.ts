@@ -11,6 +11,8 @@ export type TMenuItem = {
   image: string,
   imageAlt?: string,
   author: string,
+  price: number,
+  weight: number,
   createdAt: Date
   modifiedAt: Date
 }

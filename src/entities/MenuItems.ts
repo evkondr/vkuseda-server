@@ -17,7 +17,7 @@ export default class MenuItems {
   @Column('text')
     ingredients: string;
 
-  @Column('varchar')
+  @Column({ type: 'varchar', nullable: true })
     image: string;
 
   @Column({ type: 'double precision' })
@@ -26,19 +26,23 @@ export default class MenuItems {
 
   @Column('smallint')
   @IsInt()
-    weghit: number;
+    weight: number;
 
   @Column('date')
   @IsDate()
     createdAt: Date;
 
-  @Column()
+  @Column('date')
   @IsDate()
     modifiedAt: Date;
 
-  @ManyToOne(() => Categories, (category) => category.menuItems)
+  @ManyToOne(() => Categories, (category) => category.menuItems, {
+    nullable: true,
+  })
     category: Categories;
 
-  @ManyToOne(() => Users, (user) => user.menuItems)
+  @ManyToOne(() => Users, (user) => user.menuItems, {
+    nullable: true,
+  })
     createdBy: Users;
 }
