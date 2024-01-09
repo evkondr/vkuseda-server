@@ -4,8 +4,13 @@ import AppDataSource from '../dbConnection';
 import { MenuItems } from '../entities';
 
 export default class MenuController {
-  static getMenuItems(req:Request, res:Response) {
-    return res.send('get MenuItems');
+  static async getMenuItems(req:Request, res:Response) {
+    try {
+      const menuItems = await AppDataSource.getRepository(MenuItems).find();
+      return res.status(200).json(menuItems);
+    } catch (error) {
+      return res.status(200).send(error);
+    }
   }
 
   static getMenuItemByID(req:Request, res:Response) {
