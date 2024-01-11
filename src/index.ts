@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
 import AppDataSource from './dbConnection';
+import errorHandler from './middleware/errorHandler';
 
 dotenv.config();
 
@@ -16,8 +17,10 @@ app.use('/api/categories', categoryRoute);
 app.use('/api/menu', menuRoute);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('VKUSEDA');
+  res.status(200).send('Home page');
 });
+
+app.use(errorHandler);
 const startServer = async () => {
   try {
     await AppDataSource.initialize();
