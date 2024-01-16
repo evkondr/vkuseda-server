@@ -3,6 +3,7 @@ import path from 'path';
 import {
   Express, NextFunction, Request, Response,
 } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 import ApiError from '../utils/api-error';
 // Storage configuration
 const storage = multer.diskStorage({
@@ -12,7 +13,7 @@ const storage = multer.diskStorage({
   },
   filename: (_, file, cb) => {
     const ext = path.extname(file.originalname);
-    const fileName = Date.now() + ext;
+    const fileName = uuidv4() + ext;
     cb(null, fileName);
   },
 });

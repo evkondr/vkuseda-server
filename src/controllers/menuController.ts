@@ -24,9 +24,11 @@ export default class MenuController {
       const {
         name, ingredients, price, weight,
       } = req.body;
+      const { file } = req;
       const menuItem = await AppDataSource
         .getRepository(MenuItems)
         .create({
+          image: file?.filename || undefined,
           name,
           ingredients,
           createdAt,

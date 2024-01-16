@@ -19,7 +19,7 @@ app.use('/api/menu', menuRoute);
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Home page');
 });
-
+app.use(express.static('./src/images/'));
 app.use(errorHandler);
 const startServer = async () => {
   try {
