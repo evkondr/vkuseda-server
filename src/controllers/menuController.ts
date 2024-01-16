@@ -1,15 +1,16 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
+import menuService from '../services/menuService';
 import AppDataSource from '../dbConnection';
 import { MenuItems } from '../entities';
 
 export default class MenuController {
-  static async getMenuItems(req:Request, res:Response) {
+  static async getMenuItems(req:Request, res:Response, next:NextFunction) {
     try {
-      const menuItems = await AppDataSource.getRepository(MenuItems).find();
+      const menuItems = await menuService.getAllMenuItems();
       return res.status(200).json(menuItems);
     } catch (error) {
-      return res.status(200).send(error);
+      return next(error);
     }
   }
 

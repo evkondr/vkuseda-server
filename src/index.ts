@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import 'reflect-metadata';
 import dotenv from 'dotenv';
+import path from 'path';
 import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
 import AppDataSource from './dbConnection';
@@ -19,7 +20,7 @@ app.use('/api/menu', menuRoute);
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Home page');
 });
-app.use(express.static('./src/images/'));
+app.use(express.static(path.join(__dirname, 'images')));
 app.use(errorHandler);
 const startServer = async () => {
   try {

@@ -1,13 +1,14 @@
 /* eslint-disable camelcase */
 import { Request, Response, NextFunction } from 'express';
+import ApiError from '../utils/api-error';
 
 const secureRote = (req:Request, res:Response, next:NextFunction) => {
   const { api_key } = req.headers;
   if (!api_key) {
-    return res.status(403).json({ message: 'Ключ не передан' });
+    return next(ApiError.Forbidden('Ключ не передан'));
   }
   if (api_key !== process.env.API_KEY) {
-    return res.status(403).json({ message: 'Неверный ключ' });
+    return next(ApiError.Forbidden('Неправильный ключ'));
   }
   return next();
 };
