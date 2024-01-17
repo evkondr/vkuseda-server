@@ -18,7 +18,7 @@ export default class MenuItems {
     ingredients: string;
 
   @Column({ type: 'varchar', nullable: true })
-    image: string;
+    image: string | null;
 
   @Column({ type: 'double precision' })
   @IsInt()
@@ -36,9 +36,7 @@ export default class MenuItems {
   @IsDate()
     modifiedAt: Date;
 
-  @ManyToOne(() => Categories, (category) => category.menuItems, {
-    nullable: true,
-  })
+  @ManyToOne(() => Categories, (category) => category.menuItems)
     category: Categories;
 
   @ManyToOne(() => Users, (user) => user.menuItems, {

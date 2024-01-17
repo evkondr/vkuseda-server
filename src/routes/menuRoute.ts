@@ -9,6 +9,6 @@ router.get('/', secureRote, MenuController.getMenuItems);
 router.get('/:id', MenuController.getMenuItemByID);
 router.post('/', imageUpload, MenuController.createMenuItem);
 router.patch('/:id', MenuController.updateMenuItem);
-router.delete('/"id', MenuController.deleteMenuItem);
+router.delete('/:id', MenuController.deleteMenuItem);
 
 export default router;

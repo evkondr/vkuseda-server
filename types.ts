@@ -8,14 +8,17 @@ export type TMenuItem = {
   id: string,
   name: string,
   ingredients: string,
-  image: string,
+  image: string | null,
   imageAlt?: string,
-  author: string,
+  createdById: string | null,
+  categoryId: TCategory | null
   price: number,
   weight: number,
-  createdAt: Date
-  modifiedAt: Date
+  createdAt: string
+  modifiedAt: string
 }
+export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
+
 export enum UserRole {
   ADMIN = 'admin',
   EDITOR = 'editor',
