@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import AppDataSource from '../dbConnection';
 import { MenuItems } from '../entities';
-import { TMenuItemCreateValues } from '../../types';
+import { TMenuItemCreateValues, TUpdateValues } from '../../types';
 
 class MenuItemsService {
   dataSource: Repository<MenuItems>;
@@ -41,6 +41,11 @@ class MenuItemsService {
 
   async deleteMenuItemById(id:string) {
     const result = await this.dataSource.delete(id);
+    return result;
+  }
+
+  async updateMenuItemById(id:string, values:TUpdateValues) {
+    const result = await this.dataSource.update(id, values);
     return result;
   }
 }

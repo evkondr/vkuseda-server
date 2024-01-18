@@ -18,6 +18,7 @@ export type TMenuItem = {
   modifiedAt: string
 }
 export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
+export type TUpdateValues = Partial<TMenuItemCreateValues>
 
 export enum UserRole {
   ADMIN = 'admin',

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
-import { Categories } from '../entities';
 import menuService from '../services/menuService';
+import { TUpdateValues } from '../../types';
 
 export default class MenuController {
   static async getMenuItems(req:Request, res:Response, next:NextFunction) {
@@ -30,14 +30,12 @@ export default class MenuController {
         name, ingredients, price, weight,
       } = req.body;
       const { file } = req;
-      const cat = new Categories();
-      cat.name = 'Супы';
       const result = await menuService.createMenuItem({
         image: file?.filename || null,
         name,
         ingredients,
-        createdById: '1',
-        categoryId: cat,
+        createdById: null,
+        categoryId: null,
         createdAt,
         modifiedAt: createdAt,
         price,
@@ -49,9 +47,19 @@ export default class MenuController {
     }
   }
 
-  static updateMenuItem(req:Request, res:Response) {
-    const { id } = req.params;
-    return res.send(`update MenuItem ${id}`);
+  static async updateMenuItem(req:Request, res:Response, next:NextFunction) {
+    try {
+      const { id } = req.params;
+      console.log(req.body);
+      let values:TUpdateValues = { ...req.body };
+      if (req.file) {
+        values = { ...values, image: req.file.filename };
+      }
+      const result = await menuService.updateMenuItemById(id, values);
+      res.json({ message: 'Запись успешно обновлена', result });
+    } catch (error) {
+      next(error);
+    }
   }
 
   static async deleteMenuItem(req:Request, res:Response, next:NextFunction) {
