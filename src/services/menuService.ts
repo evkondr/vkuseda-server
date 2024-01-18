@@ -11,13 +11,24 @@ class MenuItemsService {
   }
 
   async getAllMenuItems() {
-    const result = await this.dataSource.find();
+    const result = await this.dataSource.find({
+      relations: {
+        category: true,
+        createdBy: true,
+      },
+    });
     return result;
   }
 
   async getMenuItemById(id:string) {
-    const result = await this.dataSource.findOneBy({
-      id,
+    const result = await this.dataSource.find({
+      relations: {
+        category: true,
+        createdBy: true,
+      },
+      where: {
+        id,
+      },
     });
     return result;
   }
