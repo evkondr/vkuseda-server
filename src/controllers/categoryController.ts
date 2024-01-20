@@ -1,73 +1,84 @@
-import { Request, Response } from 'express';
-import { Categories } from '../entities';
-import AppDataSource from '../dbConnection';
+import { NextFunction, Request, Response } from 'express';
+import categoryService from '../services/categoryService';
+import ApiError from '../utils/api-error';
 
 export default class CategoryController {
-  static async getCategories(req:Request, res:Response) {
+  // GET ALL
+  static async getCategories(req:Request, res:Response, next: NextFunction) {
     try {
-      const categories = await AppDataSource.getRepository(Categories).find();
-      return res.status(200).send(categories);
+      const result = await categoryService.getAllCategories();
+      res.json({ message: 'Успешно', result });
     } catch (error) {
-      return res.status(500).send(error);
+      next(error);
     }
   }
 
-  static async getCategoryByID(req:Request, res:Response) {
+  // GET ONE BY ID
+  static async getCategoryByID(req:Request, res:Response, next:NextFunction) {
     try {
       const { id } = req.params;
-      const result = await AppDataSource.getRepository(Categories).findOneBy({
-        id,
-      });
+      const result = await categoryService.getCategoryById(id);
       if (!result) {
-        return res.status(404).send(`There is no records with this id - ${id}`);
+        return next(ApiError.NotFound('Элемент не найден'));
       }
-      return res.status(200).send(result);
+      return res.json({ message: 'Успешно', result });
     } catch (error) {
-      return res.status(500).send(error);
+      return next(error);
     }
   }
 
-  static async createCategory(req:Request, res:Response) {
+  // CREATE
+  static async createCategory(req:Request, res:Response, next:NextFunction) {
     try {
       const { name } = req.body;
-      const newCategory = await AppDataSource.getRepository(Categories).create({ name });
-      const result = await AppDataSource.getRepository(Categories).save(newCategory);
-      return res.status(200).send(result);
+      if (name.length < 1) {
+        return next(ApiError.BadRequest('Значение не передано'));
+      }
+      const isExist = await categoryService.findCategoryByName(name);
+      if (isExist) {
+        return next(ApiError.BadRequest('Такая запись уже есть'));
+      }
+      const result = await categoryService.createCategory(name);
+      return res.json({ message: 'Успешно', result });
     } catch (error) {
-      return res.status(500).send(error);
+      return next(error);
     }
   }
 
-  static async updateCategory(req:Request, res:Response) {
+  // UPDATE ONE
+  static async updateCategory(req:Request, res:Response, next:NextFunction) {
     try {
       const { id } = req.params;
-      const { updates } = req.body;
-      const categoryItem = await AppDataSource.getRepository(Categories).findOneBy({
-        id,
-      });
-      if (!categoryItem) {
-        return res.status(404).send(`There is no records with this id - ${id}`);
+      const { name } = req.body;
+      if (!id || !name) {
+        return next(ApiError.BadRequest('Значения id или name не переданы'));
       }
-      const result = await AppDataSource.getRepository(Categories).update(id, updates);
-      return res.status(200).send(result);
+      const isExist = await categoryService.getCategoryById(id);
+      if (!isExist) {
+        return next(ApiError.NotFound('Элемент не найден'));
+      }
+      const result = categoryService.updateCategoryById(id, name);
+      return res.json({ message: 'Успешно', result });
     } catch (error) {
-      return res.status(500).send(error);
+      return next(error);
     }
   }
 
-  static async deleteCategory(req:Request, res:Response) {
+  // DELETE ONE
+  static async deleteCategory(req:Request, res:Response, next:NextFunction) {
     try {
       const { id } = req.params;
-      const isExsist = await AppDataSource.getRepository(Categories).findOneBy({
-        id,
-      });
-      if (!isExsist) {
-        return res.status(404).send(`There is no records with this id - ${id}`);
+      if (!id) {
+        return next(ApiError.BadRequest('Значение не передано'));
       }
-      const result = await AppDataSource.getRepository(Categories).delete(id);
-      return res.status(200).send(result);
+      const isExist = await categoryService.getCategoryById(id);
+      if (!isExist) {
+        return next(ApiError.NotFound('Элемент не найден'));
+      }
+      const result = await categoryService.deleteCategoryById(id);
+      return res.json({ message: 'Успешно', result });
     } catch (error) {
-      return res.status(500).send(error);
+      return next(error);
     }
   }
 }
