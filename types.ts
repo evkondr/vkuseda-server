@@ -1,5 +1,10 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
+export enum UserRole {
+  ADMIN = 'admin',
+  EDITOR = 'editor',
+  USER = 'user'
+}
 export type TCategory = {
   id: string,
   name: string
@@ -17,11 +22,14 @@ export type TMenuItem = {
   createdAt: string
   modifiedAt: string
 }
+export type TUser = {
+  id: string,
+  email: string,
+  login:string,
+  password: string,
+  createdAt: string,
+  role?: UserRole
+}
 export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
 export type TUpdateValues = Partial<TMenuItemCreateValues>
-
-export enum UserRole {
-  ADMIN = 'admin',
-  EDITOR = 'editor',
-  USER = 'user'
-}
+export type TUserCreateValues = Omit<TUser, 'id'>
