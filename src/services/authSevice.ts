@@ -16,6 +16,15 @@ class AuthService {
     return result;
   }
 
+  async findUserByValue(prop: string, value:string) {
+    const result = await this.dataSource.findOne({
+      where: {
+        [prop]: value,
+      },
+    });
+    return result;
+  }
+
   async createUser(values:TUserCreateValues) {
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = await bcrypt.hash(values.password, salt);

@@ -33,3 +33,4 @@ export type TUser = {
 export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
 export type TUpdateValues = Partial<TMenuItemCreateValues>
 export type TUserCreateValues = Omit<TUser, 'id'>
+export type TSearchUserValues = Omit<TUser, 'id' | 'password' | 'createdAt'>
