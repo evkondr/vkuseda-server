@@ -36,5 +36,9 @@ class AuthService {
   // async login(login:string, password:string) {
   //   const user = await f
   // }
+  async deleteUserById(id:string) {
+    const result = await this.dataSource.delete(id);
+    return result;
+  }
 }
 export default new AuthService();

@@ -52,9 +52,18 @@ class AuthController {
 
   static async deleteUserById(req:Request, res:Response, next:NextFunction) {
     try {
-      res.json();
+      const { id } = req.params;
+      const isExists = await authSevice.findUserByValue('id', id);
+      if (!isExists) {
+        return next(ApiError.NotFound('Пользователя с таким id нет в базе данных'));
+      }
+      const result = authSevice.deleteUserById(id);
+      return res.json({
+        message: 'Пользователь успешно удален',
+        result,
+      });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }
