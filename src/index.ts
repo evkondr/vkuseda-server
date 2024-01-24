@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
+import authRoute from './routes/authRoute';
 import AppDataSource from './dbConnection';
 import errorHandler from './middleware/errorHandler';
 
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/api/categories', categoryRoute);
 app.use('/api/menu', menuRoute);
+app.use('/api/auth', authRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Home page');

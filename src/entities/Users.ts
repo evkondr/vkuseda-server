@@ -22,14 +22,14 @@ export default class Users {
   @IsEmail()
     email: string;
 
-  @Column({ type: 'varchar', length: 20 })
+  @Column({ type: 'varchar' })
   @Length(6, 20)
     password: string;
 
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.ADMIN,
+    default: UserRole.USER,
   })
     role: string;
 
