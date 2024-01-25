@@ -17,12 +17,8 @@ const authMiddleware = (roles:Array<UserRole>) => (
     return next(ApiError.Forbidden('Войдите в систему'));
   }
   const user = jwt.verify(token, process.env.JWT_SECRET as string) as TJWTUserData;
-  // eslint-disable-next-line no-restricted-syntax
-  for (const role of roles) {
-    if (role === user.role) {
-      req.user = user;
-      break;
-    }
+  if (!roles.includes(user.role)) {
+    return next(ApiError.Forbidden('Недостаточно прав'));
   }
   return next();
 };
