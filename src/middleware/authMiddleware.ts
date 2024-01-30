@@ -20,6 +20,7 @@ const authMiddleware = (roles:Array<UserRole>) => (
   if (!roles.includes(user.role)) {
     return next(ApiError.Forbidden('Недостаточно прав'));
   }
+  req.user = user;
   return next();
 };
 export default authMiddleware;

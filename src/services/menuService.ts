@@ -21,7 +21,7 @@ class MenuItemsService {
   }
 
   async getMenuItemById(id:string) {
-    const result = await this.dataSource.find({
+    const result = await this.dataSource.findOne({
       relations: {
         category: true,
         createdBy: true,

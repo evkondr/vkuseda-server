@@ -1,9 +1,20 @@
 /* eslint-disable no-unused-vars */
+
+import { Users } from 'entities';
+
 /* eslint-disable no-shadow */
 export enum UserRole {
   ADMIN = 'admin',
   EDITOR = 'editor',
   USER = 'user'
+}
+export type TUser = {
+  id: string,
+  email: string,
+  login:string,
+  password: string,
+  createdAt: string,
+  role: UserRole
 }
 export type TCategory = {
   id: string,
@@ -15,20 +26,12 @@ export type TMenuItem = {
   ingredients: string,
   image: string | null,
   imageAlt?: string,
-  createdById: string | null,
-  categoryId: TCategory | null
+  createdBy: Users| undefined,
+  category: TCategory | undefined
   price: number,
   weight: number,
   createdAt: string
   modifiedAt: string
-}
-export type TUser = {
-  id: string,
-  email: string,
-  login:string,
-  password: string,
-  createdAt: string,
-  role?: UserRole
 }
 export type TJWTUserData = {
   id: string,
