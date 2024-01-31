@@ -9,8 +9,8 @@ import PromoMenuController from '../controllers/promoMenuController';
 const router = Router();
 // PROMO
 router.get('/promo', PromoMenuController.getAllPromos);
-router.post('/promo', PromoMenuController.addMenuItemToPromo);
-router.delete('/promo/:id', PromoMenuController.deleteMenuItemFromPromo);
+router.post('/promo', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), PromoMenuController.addMenuItemToPromo);
+router.delete('/promo/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), PromoMenuController.deleteMenuItemFromPromo);
 // Main menu items
 router.get('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItems);
 router.get('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItemByID);

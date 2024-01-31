@@ -37,8 +37,21 @@ class PromoMenuController {
     }
   }
 
-  static deleteMenuItemFromPromo() {
-    // TODO
+  static async deleteMenuItemFromPromo(req:Request, res:Response, next:NextFunction) {
+    try {
+      const { menuItemId } = req.body;
+      const promoItem = await promoMenuService.findByMenuItemId(menuItemId);
+      if (!promoItem) {
+        return next(ApiError.NotFound('Записи с таким id не найдена'));
+      }
+      const result = await promoMenuService.deleteById(promoItem.id);
+      return res.json({
+        message: 'Запись успешно удалена',
+        result,
+      });
+    } catch (error) {
+      return next(error);
+    }
   }
 }
 export default PromoMenuController;
