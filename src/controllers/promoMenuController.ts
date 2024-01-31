@@ -23,6 +23,10 @@ class PromoMenuController {
       if (!menuItem) {
         return next(ApiError.NotFound('Запись с таким id не найдена'));
       }
+      const isExist = await promoMenuService.findByMenuItemId(menuItemId);
+      if (isExist) {
+        return next(ApiError.BadRequest('Запись уже существует'));
+      }
       const result = await promoMenuService.addMenuItemToPromo(menuItem);
       return res.json({
         message: 'Запись успешно создана',

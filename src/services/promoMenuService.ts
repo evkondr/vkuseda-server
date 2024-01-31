@@ -18,9 +18,13 @@ class PromoMenuService {
     return result;
   }
 
-  async findById(id:string) {
-    const result = await this.dataSource.findOneBy({
-      id,
+  async findByMenuItemId(id:string) {
+    const result = await this.dataSource.findOne({
+      where: {
+        menuItem: {
+          id,
+        },
+      },
     });
     return result;
   }
