@@ -4,6 +4,7 @@ import {
 import {
   Length,
   IsDate,
+  IsInt,
 } from 'class-validator';
 
 @Entity()
@@ -21,6 +22,13 @@ export default class Orders {
 
   @Column('text')
     description: string;
+
+  @Column('text')
+    menuItems: string;
+
+  @Column({ type: 'double precision' })
+    @IsInt()
+    totalPrice: number;
 
   @Column('date')
   @IsDate()

@@ -5,7 +5,7 @@ import path from 'path';
 import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
 import authRoute from './routes/authRoute';
-import mailerRoute from './routes/mailerRoute';
+import ordersRoute from './routes/ordersRoute';
 import AppDataSource from './dbConnection';
 import errorHandler from './middleware/errorHandler';
 
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/api/categories', categoryRoute);
 app.use('/api/menu', menuRoute);
 app.use('/api/auth', authRoute);
-app.use('/api/mail', mailerRoute);
+app.use('/api/orders', ordersRoute);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Home page');
