@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { Users } from 'entities';
+import { Orders, Users } from 'entities';
 
 /* eslint-disable no-shadow */
 export enum UserRole {
@@ -42,3 +42,4 @@ export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
 export type TUpdateValues = Partial<TMenuItemCreateValues>
 export type TUserCreateValues = Omit<TUser, 'id'>
 export type TSearchUserValues = Omit<TUser, 'id' | 'password' | 'createdAt'>
+export type TOrderCreateValues = Omit<Orders, 'id' | 'orderNumber'>

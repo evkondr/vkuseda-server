@@ -19,7 +19,7 @@ class MailService {
     this.sender = 'order@vkuseda-nn.ru';
   }
 
-  async sendOrder(number:string, date: string, messageBody:string) {
+  async sendOrder(number:number, date:string, messageBody:string) {
     const result = await this.transporter.sendMail({
       from: this.sender,
       to: process.env.SMTP_TO,

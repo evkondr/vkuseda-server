@@ -1,6 +1,7 @@
 import { Repository } from 'typeorm';
 import { Orders } from '../entities';
 import AppDataSource from '../dbConnection';
+import { TOrderCreateValues } from '../../types';
 
 class OrderService {
   dataSource: Repository<Orders>;
@@ -18,6 +19,12 @@ class OrderService {
     const result = await this.dataSource.findOneBy({
       id,
     });
+    return result;
+  }
+
+  async createOrder(orderData:TOrderCreateValues) {
+    const order = await this.dataSource.create(orderData);
+    const result = await this.dataSource.save(order);
     return result;
   }
 
