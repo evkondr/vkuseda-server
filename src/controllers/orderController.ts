@@ -15,7 +15,6 @@ export default class orderController {
         return next(ApiError.BadRequest('Не все данны переданы для заказа'));
       }
       const customerInfo = `<p>Имя: ${customerName}</p><p>Телефон: ${customerPhone}</p><p>Адрес: ${customerAddress}</p>`;
-      const orderNumber = Date.now();
       const orderDate = moment().format('DD/MM/YY');
       let cartInfo = '';
       cart.forEach((element:{name:string, count:number}, index:number) => {
@@ -31,6 +30,7 @@ export default class orderController {
         totalPrice,
         date: orderDate,
         comment,
+        isDone: false,
       });
       const mailInfo = await mailService.sendOrder(result.orderNumber, orderDate, messageBody);
       return res.json({
