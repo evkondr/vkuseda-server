@@ -5,6 +5,7 @@ import menuService from '../services/menuService';
 import authSevice from '../services/authSevice';
 import { TUpdateValues } from '../../types';
 import ApiError from '../utils/api-error';
+import { Categories } from '../entities';
 
 export default class MenuController {
   static async getMenuItems(req:Request, res:Response, next:NextFunction) {
@@ -30,13 +31,14 @@ export default class MenuController {
     try {
       const createdAt = moment().format('DD/MM/YY');
       const {
-        name, ingredients, price, weight, categoryId,
+        name, ingredients, price, weight, categoryId, imageAlt,
       } = req.body;
       const { file, user } = req;
       // First find category in DV
-      const category = await categoryService.getCategoryById(categoryId);
-      if (!category) {
-        return next(ApiError.NotFound('Категории с таким id не найдено'));
+      let category;
+      if (categoryId !== undefined && categoryId !== '') {
+        console.log('categoryId');
+        category = await categoryService.getCategoryById(categoryId) as Categories;
       }
       const createdBy = await authSevice.findUserByValue('id', user.id);
       if (!createdBy) {
@@ -52,6 +54,7 @@ export default class MenuController {
         modifiedAt: createdAt,
         price,
         weight,
+        imageAlt,
       });
       return res.status(200).json({ message: 'Запись успешно создана', result });
     } catch (error) {

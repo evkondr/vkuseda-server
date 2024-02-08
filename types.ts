@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-import { Orders, Users } from 'entities';
+import { Categories, Orders, Users } from 'entities';
 
 /* eslint-disable no-shadow */
 export enum UserRole {
@@ -27,7 +27,7 @@ export type TMenuItem = {
   image: string | null,
   imageAlt?: string,
   createdBy: Users| undefined,
-  category: TCategory | undefined
+  category: Categories | undefined
   price: number,
   weight: number,
   createdAt: string

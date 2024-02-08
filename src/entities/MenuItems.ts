@@ -36,7 +36,9 @@ export default class MenuItems {
   @IsDate()
     modifiedAt: Date;
 
-  @ManyToOne(() => Categories, (category) => category.menuItems)
+  @ManyToOne(() => Categories, (category) => category.menuItems, {
+    nullable: true,
+  })
     category: Categories;
 
   @ManyToOne(() => Users, (user) => user.menuItems, {

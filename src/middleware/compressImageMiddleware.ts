@@ -32,15 +32,15 @@ const compressImageMiddleware = async (req: Request, res: Response, next: NextFu
   const upload = multer({ storage, fileFilter }).single('menu-image');
   upload(req, res, async (err) => {
     if (err) {
-      next(err);
+      return next(err);
     }
     if (req.file) {
       const filename = `${uuidv4()}.webp`;
       await sharp(req.file.buffer).webp({ quality: 20 }).toFile(path.join(dest, filename));
       req.file.filename = filename;
-      next();
+      return next();
     }
-    next();
+    return next();
   });
 };
 
