@@ -28,6 +28,11 @@ class OrderService {
     return result;
   }
 
+  async editOrder(id:string, updates: Partial<TOrderCreateValues>) {
+    const result = await this.dataSource.update(id, updates);
+    return result;
+  }
+
   async deleteOneById(id:string) {
     const result = await this.dataSource.delete(id);
     return result;

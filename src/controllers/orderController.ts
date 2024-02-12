@@ -6,6 +6,32 @@ import ApiError from '../utils/api-error';
 import orderService from '../services/orderService';
 
 export default class orderController {
+  static async getAllOrders(req:Request, res:Response, next:NextFunction) {
+    try {
+      const result = await orderService.getAll();
+      return res.json({
+        message: 'Данные успешно получены',
+        result,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async updateOrderStatus(req:Request, res:Response, next:NextFunction) {
+    try {
+      const { id } = req.params;
+      const { isDone } = req.body;
+      const result = orderService.editOrder(id, { isDone });
+      return res.json({
+        message: 'Запись успешно обновлена',
+        result,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
   static async sendOrderByEmail(req:Request, res:Response, next:NextFunction) {
     try {
       const {
