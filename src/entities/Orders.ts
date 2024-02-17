@@ -38,7 +38,7 @@ export default class Orders {
     @IsInt()
     totalPrice: number;
 
-  @Column('date')
+  @Column({ type: 'varchar', length: 15 })
   @IsDate()
     date: string;
 

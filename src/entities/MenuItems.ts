@@ -28,11 +28,11 @@ export default class MenuItems {
   @IsInt()
     weight: number;
 
-  @Column('date')
+  @Column({ type: 'varchar', length: 15 })
   @IsDate()
     createdAt: Date;
 
-  @Column('date')
+  @Column({ type: 'varchar', length: 15 })
   @IsDate()
     modifiedAt: Date;
 

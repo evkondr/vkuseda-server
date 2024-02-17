@@ -10,25 +10,19 @@ FROM node:${NODE_VERSION}-alpine as base
 WORKDIR /app
 
 
-COPY package*.json .
-RUN npm install
-ENV PORT=
-ENV API_KEY=
-ENV JWT_SECRET=
-ENV SMTP_HOST=
-ENV SMTP_PORT=
-ENV SMTP_USER=
-ENV SMTP_PASSWORD=
-ENV SMTP_TO=
+# COPY package*.json .
+COPY --chown=node:node . .
+RUN npm install && npm run build
+
 # Copy the rest of the source files into the image.
-COPY /src/ ./src/
-COPY types.ts .
-COPY tsconfig.json .
+
+
 # Run the build script.
-RUN npm run build
+# RUN npm run build
 
 # Expose the port that the application listens on.
-EXPOSE 3000
+EXPOSE 4000
 
+USER node
 # Run the application.
 CMD ["node", "./dist/src/index.js"]
