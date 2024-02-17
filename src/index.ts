@@ -22,7 +22,7 @@ app.use('/api/auth', authRoute);
 app.use('/api/orders', ordersRoute);
 
 app.get('/', (req: Request, res: Response) => {
-  res.status(200).send('Home page');
+  res.status(200).send('Vkuseda API');
 });
 app.use(express.static(path.join(__dirname, 'images')));
 app.use(errorHandler);
