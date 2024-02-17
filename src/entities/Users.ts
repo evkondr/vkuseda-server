@@ -33,7 +33,7 @@ export default class Users {
   })
     role: string;
 
-  @Column('date')
+  @Column({ type: 'varchar', length: 15 })
   @IsDate()
     createdAt: Date;
 
