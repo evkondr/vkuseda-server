@@ -9,7 +9,6 @@ FROM node:${NODE_VERSION}-bullseye-slim as base
 # Set working directory for all build stages.
 WORKDIR /app
 
-ENV NODE_ENV=production
 COPY package*.json .
 COPY --chown=node:node . .
 RUN npm install && npm run build
@@ -20,4 +19,4 @@ EXPOSE 4000
 
 USER node
 # Run the application.
-CMD ["node", "./dist/src/index.js"]
+CMD ["npm", "run", "prod"]
