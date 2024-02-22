@@ -3,10 +3,8 @@ services:
   postgres:
       image: postgres:16-bullseye
       restart: always
-      environment:
-        - POSTGRES_DB=
-        - POSTGRES_PASSWORD=
-        - POSTGRES_USER=
+      env_file:
+        - pg.env
       volumes:
         - ../postgresql_data:/var/lib/postgresql/data
       ports:
@@ -16,12 +14,8 @@ services:
       - postgres
     build: .
     restart: always
-    environment:
-      - DB_NAME=
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_USER=
-      - DB_PASSWORD=
+    env_file:
+        - backend.env
     volumes:
         - ../assets:/app/dist/src/images
     ports:
