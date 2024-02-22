@@ -9,16 +9,11 @@ FROM node:${NODE_VERSION}-alpine as base
 # Set working directory for all build stages.
 WORKDIR /app
 
-
+ENV NODE_ENV=production
 # COPY package*.json .
 COPY --chown=node:node . .
 RUN npm install && npm run build
 
-# Copy the rest of the source files into the image.
-
-
-# Run the build script.
-# RUN npm run build
 
 # Expose the port that the application listens on.
 EXPOSE 4000
