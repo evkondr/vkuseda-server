@@ -23,7 +23,7 @@ const fileFilter = (
 };
 
 const compressImageMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  const dest = path.join(__dirname, 'src', 'images');
+  const dest = process.env.NODE_ENV === 'production' ? path.join('dist', 'src', 'images') : path.join('src', 'images');
   fs.access(dest, (error) => {
     if (error) {
       fs.mkdirSync(dest);
