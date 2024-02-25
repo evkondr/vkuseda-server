@@ -1,9 +1,11 @@
+/* eslint-disable no-bitwise */
 import {
   Express, Request, Response, NextFunction,
 } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
-import fs from 'fs';
+// import fs from 'fs';
+import { access, mkdir, constants } from 'node:fs';
 import sharp from 'sharp';
 import multer, { FileFilterCallback } from 'multer';
 import ApiError from '../utils/api-error';
@@ -23,10 +25,14 @@ const fileFilter = (
 };
 
 const compressImageMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  const dest = path.join('src', 'images');
-  fs.access(dest, (error) => {
-    if (error) {
-      fs.mkdirSync(dest);
+  const dest = process.env.NODE_ENV === 'production' ? path.join('dist', 'src', 'images') : path.join('src', 'images');
+  access(dest, constants.R_OK, (err) => {
+    if (err) {
+      mkdir(dest, (mkdirErr) => {
+        if (err) {
+          next(mkdirErr);
+        }
+      });
     }
   });
   const upload = multer({ storage, fileFilter }).single('menu-image');

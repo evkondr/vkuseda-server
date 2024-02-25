@@ -6,6 +6,7 @@ import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
 import authRoute from './routes/authRoute';
 import ordersRoute from './routes/ordersRoute';
+import emailRouter from './routes/mailRoute';
 import AppDataSource from './dbConnection';
 import errorHandler from './middleware/errorHandler';
 
@@ -20,6 +21,7 @@ app.use('/api/categories', categoryRoute);
 app.use('/api/menu', menuRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/orders', ordersRoute);
+app.use('/api/email', emailRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Vkuseda API');
