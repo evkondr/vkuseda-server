@@ -37,7 +37,6 @@ export default class MenuController {
       // First find category in DV
       let category;
       if (categoryId !== undefined && categoryId !== '') {
-        console.log('categoryId');
         category = await categoryService.getCategoryById(categoryId) as Categories;
       }
       const createdBy = await authSevice.findUserByValue('id', user.id);

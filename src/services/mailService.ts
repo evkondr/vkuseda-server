@@ -4,7 +4,7 @@ class MailService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private transporter: nodemailer.Transporter;
 
-  private sender:string;
+  private sender:string[];
 
   constructor() {
     this.transporter = nodemailer.createTransport({
@@ -16,15 +16,25 @@ class MailService {
         pass: process.env.SMTP_PASSWORD,
       },
     });
-    this.sender = 'order@vkuseda-nn.ru';
+    this.sender = ['order@vkuseda-nn.ru', 'info@vkuseda-nn.ru'];
   }
 
   async sendOrder(number:number, date:string, messageBody:string) {
     const result = await this.transporter.sendMail({
-      from: this.sender,
+      from: this.sender[0],
       to: process.env.SMTP_TO,
-      subject: `Оформлен заказ №${number} от ${date} на сайте vkuseda.ru`,
+      subject: `Оформлен заказ №${number} от ${date} на сайте vkuseda-nn.ru`,
       html: messageBody,
+    });
+    return result;
+  }
+
+  async sendEmailRequest(message:string) {
+    const result = await this.transporter.sendMail({
+      from: this.sender[1],
+      to: process.env.SMTP_TO,
+      subject: 'Отправлено письмо с сайта vkuseda-nn.ru',
+      html: message,
     });
     return result;
   }
