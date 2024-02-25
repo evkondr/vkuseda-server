@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import 'reflect-metadata';
 import dotenv from 'dotenv';
 import path from 'path';
+import cors from 'cors';
 import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
 import authRoute from './routes/authRoute';
@@ -16,7 +17,7 @@ const { PORT } = process.env;
 const app = express();
 
 app.use(express.json());
-
+app.use(cors());
 app.use('/api/categories', categoryRoute);
 app.use('/api/menu', menuRoute);
 app.use('/api/auth', authRoute);
