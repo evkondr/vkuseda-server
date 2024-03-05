@@ -15,7 +15,7 @@ router.delete('/promo/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), Prom
 // Main menu items
 router.get('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItems);
 router.get('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItemByID);
-router.post('/', compressImageMiddleware, authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.createMenuItem);
+router.post('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), compressImageMiddleware, MenuController.createMenuItem);
 router.patch('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), imageUpload, MenuController.updateMenuItem);
 router.delete('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.deleteMenuItem);
 

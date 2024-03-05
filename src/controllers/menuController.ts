@@ -10,10 +10,10 @@ import { Categories } from '../entities';
 export default class MenuController {
   static async getMenuItems(req:Request, res:Response, next:NextFunction) {
     try {
-      const menuItems = await menuService.getAllMenuItems();
-      res.status(200).json(menuItems);
+      const result = await menuService.getAllMenuItems();
+      return res.status(200).json({ message: 'Данные успешно получены', result });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -21,9 +21,9 @@ export default class MenuController {
     try {
       const { id } = req.params;
       const result = await menuService.getMenuItemById(id);
-      res.send(result);
+      return res.send({ message: 'Данные успешно получены', result });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
