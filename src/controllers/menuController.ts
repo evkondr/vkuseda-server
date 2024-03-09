@@ -56,6 +56,7 @@ export default class MenuController {
         price,
         weight,
         imageAlt,
+        isInPromo: false,
       });
       return res.status(200).json({ message: 'Запись успешно создана', result });
     } catch (error) {
@@ -69,6 +70,10 @@ export default class MenuController {
       let values:TUpdateValues = { ...req.body };
       if (req.file) {
         values = { ...values, image: req.file.filename };
+      }
+      const menuItem = await menuService.getMenuItemById(id);
+      if (!menuItem) {
+        return next(ApiError.NotFound('Запись с таким id не найдена'));
       }
       const result = await menuService.updateMenuItemById(id, values);
       return res.json({ message: 'Запись успешно обновлена', result });
