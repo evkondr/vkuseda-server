@@ -39,6 +39,13 @@ export type TJWTUserData = {
   login: string,
   role: UserRole
 }
+export type TCartItem = {
+  id: string,
+  name: string,
+  amount: number,
+  price: number,
+  totalPrice: number
+}
 export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
 export type TUpdateValues = Partial<TMenuItemCreateValues>
 export type TUserCreateValues = Omit<TUser, 'id'>
