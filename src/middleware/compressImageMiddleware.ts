@@ -35,7 +35,7 @@ const compressImageMiddleware = async (req: Request, res: Response, next: NextFu
       });
     }
   });
-  const upload = multer({ storage, fileFilter }).single('menu-image');
+  const upload = multer({ storage, fileFilter }).single('image');
   upload(req, res, async (err) => {
     if (err) {
       return next(err);

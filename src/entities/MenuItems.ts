@@ -1,7 +1,9 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, ManyToOne,
 } from 'typeorm';
-import { Length, IsInt, IsDate } from 'class-validator';
+import {
+  Length, IsInt, IsDate, IsBoolean,
+} from 'class-validator';
 import Categories from './Categories';
 import Users from './Users';
 
@@ -35,6 +37,10 @@ export default class MenuItems {
   @Column({ type: 'varchar', length: 15 })
   @IsDate()
     modifiedAt: Date;
+
+  @Column({ type: 'boolean', default: false })
+  @IsBoolean()
+    isInPromo: boolean;
 
   @ManyToOne(() => Categories, (category) => category.menuItems, {
     nullable: true,

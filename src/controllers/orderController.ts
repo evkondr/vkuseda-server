@@ -4,6 +4,7 @@ import moment from 'moment';
 import mailService from '../services/mailService';
 import ApiError from '../utils/api-error';
 import orderService from '../services/orderService';
+import { TCartItem } from '../../types';
 
 export default class orderController {
   static async getAllOrders(req:Request, res:Response, next:NextFunction) {
@@ -43,8 +44,8 @@ export default class orderController {
       const customerInfo = `<p>Имя: ${customerName}</p><p>Телефон: ${customerPhone}</p><p>Адрес: ${customerAddress}</p>`;
       const orderDate = moment().format('DD/MM/YY');
       let cartInfo = '';
-      cart.forEach((element:{name:string, count:number}, index:number) => {
-        cartInfo += `<p>${index + 1}. ${element.name} - ${element.count} шт.</p>`;
+      cart.forEach((element:TCartItem, index:number) => {
+        cartInfo += `<p>${index + 1}. ${element.name} - ${element.amount} шт.</p>`;
       });
       cartInfo += `<p>Заказ на сумму: ${totalPrice} руб.</p>`;
       const messageBody = customerInfo + cartInfo;

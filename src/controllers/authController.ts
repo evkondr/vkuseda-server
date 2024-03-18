@@ -105,5 +105,17 @@ class AuthController {
       return next(error);
     }
   }
+
+  static async checkAuth(req:Request, res:Response, next:NextFunction) {
+    try {
+      const result = req.user;
+      return res.json({
+        message: 'Данные пользователя получены',
+        result,
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 export default AuthController;

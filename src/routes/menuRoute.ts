@@ -11,11 +11,11 @@ const router = Router();
 // PROMO
 router.get('/promo', PromoMenuController.getAllPromos);
 router.post('/promo', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), PromoMenuController.addMenuItemToPromo);
-router.delete('/promo/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), PromoMenuController.deleteMenuItemFromPromo);
+router.delete('/promo', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), PromoMenuController.deleteMenuItemFromPromo);
 // Main menu items
-router.get('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItems);
+router.get('/', MenuController.getMenuItems);
 router.get('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItemByID);
-router.post('/', compressImageMiddleware, authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.createMenuItem);
+router.post('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), compressImageMiddleware, MenuController.createMenuItem);
 router.patch('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), imageUpload, MenuController.updateMenuItem);
 router.delete('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.deleteMenuItem);
 

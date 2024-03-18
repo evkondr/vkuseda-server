@@ -14,11 +14,11 @@ export type TUser = {
   login:string,
   password: string,
   createdAt: string,
-  role: UserRole
+  role: UserRole,
 }
 export type TCategory = {
   id: string,
-  name: string
+  name: string,
 }
 export type TMenuItem = {
   id: string,
@@ -27,16 +27,24 @@ export type TMenuItem = {
   image: string | null,
   imageAlt?: string,
   createdBy: Users| undefined,
-  category: Categories | undefined
+  category: Categories | undefined,
   price: number,
   weight: number,
-  createdAt: string
-  modifiedAt: string
+  createdAt: string,
+  modifiedAt: string,
+  isInPromo: boolean,
 }
 export type TJWTUserData = {
   id: string,
   login: string,
   role: UserRole
+}
+export type TCartItem = {
+  id: string,
+  name: string,
+  amount: number,
+  price: number,
+  totalPrice: number
 }
 export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
 export type TUpdateValues = Partial<TMenuItemCreateValues>

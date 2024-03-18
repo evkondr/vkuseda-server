@@ -8,7 +8,7 @@ services:
       volumes:
         - ../postgresql_data:/var/lib/postgresql/data
       ports:
-        - "5432:5432"
+        - "5433:5432"
   backend:
     depends_on:
       - postgres
@@ -20,3 +20,10 @@ services:
         - ../assets:/app/dist/src/images
     ports:
       - "4030:4000"
+  client:
+    depends_on:
+      - backend
+    build: ../client
+    ports:
+      - "80:80"
+      - "443:443"

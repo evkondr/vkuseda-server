@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import moment from 'moment';
+import fs from 'fs/promises';
+import path from 'path';
 import categoryService from '../services/categoryService';
 import menuService from '../services/menuService';
 import authSevice from '../services/authSevice';
@@ -10,10 +12,10 @@ import { Categories } from '../entities';
 export default class MenuController {
   static async getMenuItems(req:Request, res:Response, next:NextFunction) {
     try {
-      const menuItems = await menuService.getAllMenuItems();
-      res.status(200).json(menuItems);
+      const result = await menuService.getAllMenuItems();
+      return res.status(200).json({ message: 'Данные успешно получены', result });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -21,9 +23,9 @@ export default class MenuController {
     try {
       const { id } = req.params;
       const result = await menuService.getMenuItemById(id);
-      res.send(result);
+      return res.send({ message: 'Данные успешно получены', result });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
@@ -54,6 +56,7 @@ export default class MenuController {
         price,
         weight,
         imageAlt,
+        isInPromo: false,
       });
       return res.status(200).json({ message: 'Запись успешно создана', result });
     } catch (error) {
@@ -68,20 +71,36 @@ export default class MenuController {
       if (req.file) {
         values = { ...values, image: req.file.filename };
       }
+      const menuItem = await menuService.getMenuItemById(id);
+      if (!menuItem) {
+        return next(ApiError.NotFound('Запись с таким id не найдена'));
+      }
       const result = await menuService.updateMenuItemById(id, values);
-      res.json({ message: 'Запись успешно обновлена', result });
+      return res.json({ message: 'Запись успешно обновлена', result });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 
   static async deleteMenuItem(req:Request, res:Response, next:NextFunction) {
     try {
       const { id } = req.params;
+      const found = await menuService.getMenuItemById(id);
+      if (!found) {
+        return next(ApiError.NotFound('Запись с таким id не найдена'));
+      }
+      if (found?.image) {
+        try {
+          const filePath = path.join(process.cwd(), 'src', 'images', found.image);
+          await fs.rm(filePath);
+        } catch (error) {
+          // Don't need to handle error
+        }
+      }
       const result = await menuService.deleteMenuItemById(id);
-      res.json({ message: 'Запись удалена успешно', result });
+      return res.json({ message: 'Запись удалена успешно', result });
     } catch (error) {
-      next(error);
+      return next(error);
     }
   }
 }

@@ -27,7 +27,10 @@ class PromoMenuController {
       if (isExist) {
         return next(ApiError.BadRequest('Запись уже существует'));
       }
+      // If record not exists
       const result = await promoMenuService.addMenuItemToPromo(menuItem);
+      // Then set menu item as promo for landing
+      await menuService.updateMenuItemById(menuItemId, { isInPromo: true });
       return res.json({
         message: 'Запись успешно создана',
         result,
@@ -44,7 +47,10 @@ class PromoMenuController {
       if (!promoItem) {
         return next(ApiError.NotFound('Записи с таким id не найдена'));
       }
+      // If record exists
       const result = await promoMenuService.deleteById(promoItem.id);
+      // Then change menu item as not in promo for landing
+      await menuService.updateMenuItemById(menuItemId, { isInPromo: false });
       return res.json({
         message: 'Запись успешно удалена',
         result,

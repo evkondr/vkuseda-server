@@ -42,7 +42,7 @@ export default class Orders {
   @IsDate()
     date: string;
 
-  @Column('boolean')
+  @Column({ type: 'boolean', default: false })
   @IsBoolean()
     isDone: boolean;
 }
