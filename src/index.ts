@@ -20,20 +20,19 @@ const serverOptions = {
   key: '',
   cert: '',
 };
+// SSL configuration
 (async () => {
   try {
     const key = await fs.readFile('/etc/letsencrypt/live/vkuseda-nn.ru/privkey.pem', { encoding: 'utf8' });
-    const cert = await fs.readFile('/etc/letsencrypt/live/vkuseda-nn.ru/cert.pem', { encoding: 'utf8' });
+    const cert = await fs.readFile('/etc/letsencrypt/live/vkuseda-nn.ru/fullchain.pem', { encoding: 'utf8' });
     serverOptions.key = key;
     serverOptions.cert = cert;
   } catch (error) {
     console.log(error);
   }
 })();
-// const serverOptions = {
-//   key: fs.readFileSync('/etc/letsencrypt/live/vkuseda-nn.ru/privkey.pem'),
-//   cert: fs.readFileSync('/etc/letsencrypt/live/vkuseda-nn.ru/cert.pem'),
-// };
+
+// App configuration
 const app = express();
 
 app.use(express.json());
@@ -49,6 +48,7 @@ app.get('/', (req: Request, res: Response) => {
 });
 app.use(express.static(path.join(__dirname, 'images')));
 app.use(errorHandler);
+// Init server
 const startServer = async () => {
   try {
     await AppDataSource.initialize();
@@ -62,11 +62,9 @@ const startServer = async () => {
         console.log(`Server running at http://localhost:${PORT}`);
       });
     }
-    // app.listen(PORT, () => {
-    //   console.log(`Server running at http://localhost:${PORT}`);
-    // });
   } catch (error) {
     console.log(error);
   }
 };
+// Start server
 startServer();
