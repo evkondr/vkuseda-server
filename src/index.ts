@@ -1,4 +1,7 @@
 import express, { Request, Response } from 'express';
+import https from 'node:https';
+import http from 'node:http';
+import fs from 'node:fs/promises';
 import 'reflect-metadata';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -12,8 +15,25 @@ import AppDataSource from './dbConnection';
 import errorHandler from './middleware/errorHandler';
 
 dotenv.config();
-
 const { PORT } = process.env;
+const serverOptions = {
+  key: '',
+  cert: '',
+};
+(async () => {
+  try {
+    const key = await fs.readFile('/etc/letsencrypt/live/vkuseda-nn.ru/privkey.pem', { encoding: 'utf8' });
+    const cert = await fs.readFile('/etc/letsencrypt/live/vkuseda-nn.ru/cert.pem', { encoding: 'utf8' });
+    serverOptions.key = key;
+    serverOptions.cert = cert;
+  } catch (error) {
+    console.log(error);
+  }
+})();
+// const serverOptions = {
+//   key: fs.readFileSync('/etc/letsencrypt/live/vkuseda-nn.ru/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/vkuseda-nn.ru/cert.pem'),
+// };
 const app = express();
 
 app.use(express.json());
@@ -33,9 +53,18 @@ const startServer = async () => {
   try {
     await AppDataSource.initialize();
     console.log('DB connected successfully');
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
+    if (serverOptions.key && serverOptions.cert) {
+      https.createServer(serverOptions, app).listen(PORT, () => {
+        console.log(`Server running at https://localhost:${PORT}`);
+      });
+    } else {
+      http.createServer(app).listen(PORT, () => {
+        console.log(`Server running at http://localhost:${PORT}`);
+      });
+    }
+    // app.listen(PORT, () => {
+    //   console.log(`Server running at http://localhost:${PORT}`);
+    // });
   } catch (error) {
     console.log(error);
   }
