@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import express, { Request, Response } from 'express';
 import https from 'node:https';
 import http from 'node:http';
@@ -6,6 +7,7 @@ import 'reflect-metadata';
 import dotenv from 'dotenv';
 import path from 'path';
 import cors from 'cors';
+import helmet from 'helmet';
 import categoryRoute from './routes/categoryRoute';
 import menuRoute from './routes/menuRoute';
 import authRoute from './routes/authRoute';
@@ -20,7 +22,7 @@ const serverOptions = {
   key: '',
   cert: '',
 };
-// SSL configuration
+
 (async () => {
   try {
     const key = await fs.readFile('/etc/letsencrypt/live/vkuseda-nn.ru/privkey.pem', { encoding: 'utf8' });
@@ -36,7 +38,8 @@ const serverOptions = {
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(cors({ origin: process.env.CORS_ALLOW || 'https://vkuseda-nn.ru' }));
 app.use('/api/categories', categoryRoute);
 app.use('/api/menu', menuRoute);
 app.use('/api/auth', authRoute);
