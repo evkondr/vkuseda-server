@@ -1,7 +1,6 @@
 import Router from 'express';
 // import secureRote from '../middleware/secureRoute';
 import MenuController from '../controllers/menuController';
-import imageUpload from '../middleware/imageUpload';
 import authMiddleware from '../middleware/authMiddleware';
 import { UserRole } from '../../types';
 import PromoMenuController from '../controllers/promoMenuController';
@@ -16,7 +15,7 @@ router.delete('/promo', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), Promo
 router.get('/', MenuController.getMenuItems);
 router.get('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.getMenuItemByID);
 router.post('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), compressImageMiddleware, MenuController.createMenuItem);
-router.patch('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), imageUpload, MenuController.updateMenuItem);
+router.patch('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), compressImageMiddleware, MenuController.updateMenuItem);
 router.delete('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), MenuController.deleteMenuItem);
 
 export default router;

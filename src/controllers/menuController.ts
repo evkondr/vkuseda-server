@@ -5,7 +5,6 @@ import path from 'path';
 import categoryService from '../services/categoryService';
 import menuService from '../services/menuService';
 import authSevice from '../services/authSevice';
-import { TUpdateValues } from '../../types';
 import ApiError from '../utils/api-error';
 import { Categories } from '../entities';
 
@@ -67,15 +66,25 @@ export default class MenuController {
   static async updateMenuItem(req:Request, res:Response, next:NextFunction) {
     try {
       const { id } = req.params;
-      let values:TUpdateValues = { ...req.body };
-      if (req.file) {
-        values = { ...values, image: req.file.filename };
-      }
+      const { categoryId, ...values } = req.body;
       const menuItem = await menuService.getMenuItemById(id);
       if (!menuItem) {
         return next(ApiError.NotFound('Запись с таким id не найдена'));
       }
-      const result = await menuService.updateMenuItemById(id, values);
+      if (menuItem.image && req.file) {
+        try {
+          const filePath = path.join(process.cwd(), 'src', 'images', menuItem.image);
+          await fs.rm(filePath);
+        } catch (error) {
+          // Don't need to handle error
+        }
+      }
+      let category;
+      if (categoryId !== undefined && categoryId !== '') {
+        category = await categoryService.getCategoryById(categoryId) as Categories;
+      }
+      // eslint-disable-next-line max-len
+      const result = await menuService.updateMenuItemById(id, { ...values, image: req.file?.filename, category });
       return res.json({ message: 'Запись успешно обновлена', result });
     } catch (error) {
       return next(error);

@@ -37,6 +37,7 @@ const compressImageMiddleware = async (req: Request, res: Response, next: NextFu
   });
   const upload = multer({ storage, fileFilter }).single('image');
   upload(req, res, async (err) => {
+    console.log(req.file);
     if (err) {
       return next(err);
     }

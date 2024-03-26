@@ -22,6 +22,9 @@ export default class MenuItems {
   @Column({ type: 'varchar', nullable: true })
     image: string | null;
 
+  @Column({ type: 'varchar', nullable: true })
+    imageAlt: string | null;
+
   @Column({ type: 'double precision' })
   @IsInt()
     price: number;
