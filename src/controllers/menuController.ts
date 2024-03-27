@@ -71,7 +71,7 @@ export default class MenuController {
       if (!menuItem) {
         return next(ApiError.NotFound('Запись с таким id не найдена'));
       }
-      if (menuItem.image && req.file) {
+      if (menuItem.image && req.file?.filename) {
         try {
           const filePath = path.join(process.cwd(), 'src', 'images', menuItem.image);
           await fs.rm(filePath);
