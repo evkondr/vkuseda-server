@@ -1,12 +1,17 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn,
+  Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable,
 } from 'typeorm';
+import MenuItems from './MenuItems';
 
 @Entity()
 export default class Days {
-  @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn('uuid')
+    id: string;
 
-  @Column('varchar', { length: 11 })
+  @Column({ type: 'varchar', length: 11 })
     name: string;
+
+  @ManyToMany(() => MenuItems)
+  @JoinTable()
+    menuItems: MenuItems[];
 }

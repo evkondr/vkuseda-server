@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export default class LandingNav {
   @PrimaryGeneratedColumn('uuid')
-    id: number;
+    id: string;
 
   @Column()
     name: string;
