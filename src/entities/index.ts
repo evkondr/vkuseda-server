@@ -5,6 +5,7 @@ import Categories from './Categories';
 import Users from './Users';
 import Orders from './Orders';
 import PromoMenu from './PromoMenu';
+import Days from './Days';
 
 export {
   MainNav,
@@ -14,4 +15,5 @@ export {
   Users,
   Orders,
   PromoMenu,
+  Days,
 };
