@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import daysService from '../services/daysService';
 import ApiError from '../utils/api-error';
+import menuService from '../services/menuService';
 
 export default class DaysControlle {
   static async getAllDays(req:Request, res:Response, next:NextFunction) {
@@ -48,6 +49,22 @@ export default class DaysControlle {
     try {
       const { id } = req.params;
       const result = await daysService.deleteDayById(id);
+      return res.json({ message: 'Успешно', result });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  // This is about adding menu item
+  static async addMenuItem(req:Request, res:Response, next:NextFunction) {
+    // TODO: Fix same menu items ia a day
+    try {
+      const { dayId, menuItemId } = req.body;
+      const menuItem = await menuService.getMenuItemById(menuItemId);
+      if (!menuItem) {
+        return next(ApiError.BadRequest('Нет записи с таким id'));
+      }
+      const result = await daysService.addMenuItem(dayId, menuItem);
       return res.json({ message: 'Успешно', result });
     } catch (error) {
       return next(error);

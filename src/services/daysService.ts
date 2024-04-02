@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { Days } from '../entities';
+import { Days, MenuItems } from '../entities';
 import AppDataSource from '../dbConnection';
 import { Day } from '../../types';
 
@@ -39,6 +39,20 @@ class DaysService {
 
   async findBy(value: Partial<Day>) {
     const result = await this.dataSource.findBy(value);
+    return result;
+  }
+
+  async addMenuItem(id: string, menuItem: MenuItems) {
+    const day = await this.dataSource.findOne({
+      relations: {
+        menuItems: true,
+      },
+      where: {
+        id,
+      },
+    });
+    day?.menuItems.push(menuItem);
+    const result = await this.dataSource.save(day as Days);
     return result;
   }
 

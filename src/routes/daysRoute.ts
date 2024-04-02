@@ -10,4 +10,6 @@ router.get('/:id', DaysControlle.getDayById);
 router.post('/', DaysControlle.createDay);
 router.delete('/:id', DaysControlle.deleteDay);
 
+router.post('/menu-items', DaysControlle.addMenuItem);
+
 export default router;
