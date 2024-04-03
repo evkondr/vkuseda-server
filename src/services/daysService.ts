@@ -56,6 +56,22 @@ class DaysService {
     return result;
   }
 
+  async delMenuItem(dayId:string, menuItemId:string) {
+    const day = await this.dataSource.findOne({
+      relations: {
+        menuItems: true,
+      },
+      where: {
+        id: dayId,
+      },
+    });
+    if (day) {
+      day.menuItems = day.menuItems.filter((item) => item.id !== menuItemId);
+    }
+    const result = this.dataSource.save(day as Days);
+    return result;
+  }
+
   async deleteDayById(id:string) {
     const result = await this.dataSource.delete(id);
     return result;

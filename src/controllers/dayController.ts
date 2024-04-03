@@ -55,7 +55,7 @@ export default class DaysControlle {
     }
   }
 
-  // This is about adding menu item
+  // This is about adding and delete daily menu item
   static async addMenuItem(req:Request, res:Response, next:NextFunction) {
     // TODO: Fix same menu items ia a day
     try {
@@ -65,6 +65,16 @@ export default class DaysControlle {
         return next(ApiError.BadRequest('Нет записи с таким id'));
       }
       const result = await daysService.addMenuItem(dayId, menuItem);
+      return res.json({ message: 'Успешно', result });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async delMenuItem(req:Request, res:Response, next:NextFunction) {
+    try {
+      const { dayId, menuItemId } = req.body;
+      const result = await daysService.delMenuItem(dayId, menuItemId);
       return res.json({ message: 'Успешно', result });
     } catch (error) {
       return next(error);
