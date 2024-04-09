@@ -6,7 +6,8 @@ import menuService from '../services/menuService';
 export default class DaysControlle {
   static async getAllDays(req:Request, res:Response, next:NextFunction) {
     try {
-      const result = await daysService.getAllDays();
+      const days = await daysService.getAllDays();
+      const result = days.sort((a, b) => a.order - b.order);
       return res.json({ message: 'Успешно', result });
     } catch (error) {
       return next(error);
@@ -15,7 +16,8 @@ export default class DaysControlle {
 
   static async createDay(req:Request, res:Response, next:NextFunction) {
     try {
-      const weekDays = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
+      const weekDays = [
+        'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'];
       const name = req.body.name.toLowerCase();
       if (!weekDays.includes(name)) {
         return next(ApiError.BadRequest('Несуществующий день недели'));
@@ -24,7 +26,8 @@ export default class DaysControlle {
       if (isAlreadyInDB.length > 0) {
         return next(ApiError.BadRequest('Такой день недели уже есть в базе'));
       }
-      const result = await daysService.createDay(name);
+      const dayOrder = weekDays.indexOf(name);
+      const result = await daysService.createDay(name, dayOrder);
       return res.json({ message: 'Успешно', result });
     } catch (error) {
       return next(error);

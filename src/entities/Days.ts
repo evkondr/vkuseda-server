@@ -11,6 +11,9 @@ export default class Days {
   @Column({ type: 'varchar', length: 11 })
     name: string;
 
+  @Column({ type: 'smallint' })
+    order: number;
+
   @ManyToMany(() => MenuItems)
   @JoinTable()
     menuItems: MenuItems[];

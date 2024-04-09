@@ -19,8 +19,11 @@ class DaysService {
     return result;
   }
 
-  async createDay(name: string) {
-    const day = await this.dataSource.create({ name });
+  async createDay(name: string, order: number) {
+    const day = await this.dataSource.create({
+      name,
+      order,
+    });
     const result = await this.dataSource.save(day);
     return result;
   }
