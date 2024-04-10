@@ -24,7 +24,15 @@ class DaysService {
       name,
       order,
     });
-    const result = await this.dataSource.save(day);
+    await this.dataSource.save(day);
+    const result = await this.dataSource.findOne({
+      relations: {
+        menuItems: true,
+      },
+      where: {
+        id: day.id,
+      },
+    });
     return result;
   }
 
