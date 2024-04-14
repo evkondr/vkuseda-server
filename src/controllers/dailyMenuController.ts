@@ -3,7 +3,7 @@ import daysService from '../services/daysService';
 import ApiError from '../utils/api-error';
 import menuService from '../services/menuService';
 
-export default class DaysControlle {
+export default class DailyMenuController {
   static async getAllDays(req:Request, res:Response, next:NextFunction) {
     try {
       const days = await daysService.getAllDays();
