@@ -37,11 +37,24 @@ export default class DailyMenuController {
   static async getDayById(req:Request, res:Response, next:NextFunction) {
     try {
       const { id } = req.params;
-      const isExist = await daysService.findBy({ id });
-      if (!isExist) {
+      const result = await daysService.getDayById(id);
+      if (result) {
         return next(ApiError.BadRequest('Нет записи с таким id'));
       }
-      const result = await daysService.getDayById(id);
+      return res.json({ message: 'Успешно', result });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  static async getDaysByQuery(req:Request, res:Response, next:NextFunction) {
+    try {
+      const { name } = req.query;
+      console.log(name);
+      const result = await daysService.findBy({ name: name as string });
+      if (result.length === 0) {
+        return next(ApiError.BadRequest('Нет записи с таким именем'));
+      }
       return res.json({ message: 'Успешно', result });
     } catch (error) {
       return next(error);
@@ -60,12 +73,19 @@ export default class DailyMenuController {
 
   // This is about adding and delete daily menu item
   static async addMenuItem(req:Request, res:Response, next:NextFunction) {
-    // TODO: Fix same menu items ia a day
     try {
       const { dayId, menuItemId } = req.body;
       const menuItem = await menuService.getMenuItemById(menuItemId);
+      const currentDay = await daysService.getDayById(dayId);
+      if (!currentDay) {
+        return next(ApiError.BadRequest('Нет записи дня с таким id'));
+      }
       if (!menuItem) {
-        return next(ApiError.BadRequest('Нет записи с таким id'));
+        return next(ApiError.BadRequest('Нет записи в меню с таким id'));
+      }
+      const isMenuItemAlreadyExists = currentDay.menuItems.find((item) => item.id === menuItemId);
+      if (isMenuItemAlreadyExists) {
+        return next(ApiError.BadRequest('Такая запись уже есть в меню'));
       }
       const result = await daysService.addMenuItem(dayId, menuItem);
       return res.json({ message: 'Успешно', result });
