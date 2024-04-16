@@ -49,7 +49,14 @@ class DaysService {
   }
 
   async findBy(value: Partial<Day>) {
-    const result = await this.dataSource.findBy(value);
+    const result = await this.dataSource.find({
+      relations: {
+        menuItems: true,
+      },
+      where: {
+        ...value,
+      },
+    });
     return result;
   }
 

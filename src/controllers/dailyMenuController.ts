@@ -38,7 +38,7 @@ export default class DailyMenuController {
     try {
       const { id } = req.params;
       const result = await daysService.getDayById(id);
-      if (result) {
+      if (!result) {
         return next(ApiError.BadRequest('Нет записи с таким id'));
       }
       return res.json({ message: 'Успешно', result });
@@ -50,7 +50,6 @@ export default class DailyMenuController {
   static async getDaysByQuery(req:Request, res:Response, next:NextFunction) {
     try {
       const { name } = req.query;
-      console.log(name);
       const result = await daysService.findBy({ name: name as string });
       if (result.length === 0) {
         return next(ApiError.BadRequest('Нет записи с таким именем'));

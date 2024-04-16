@@ -6,8 +6,8 @@ import { UserRole } from '../../types';
 const router = Router();
 
 router.get('/', DailyMenuController.getAllDays);
-router.get('/:id', DailyMenuController.getDayById);
 router.get('/current', DailyMenuController.getDaysByQuery);
+router.get('/:id', DailyMenuController.getDayById);
 router.post('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), DailyMenuController.createDay);
 router.delete('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), DailyMenuController.deleteDay);
 
