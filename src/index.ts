@@ -16,6 +16,7 @@ import emailRouter from './routes/mailRoute';
 import dailyMenuRouter from './routes/dailyMenuRoute';
 import AppDataSource from './dbConnection';
 import errorHandler from './middleware/errorHandler';
+import InitDB from './utils/initDB';
 
 dotenv.config();
 const { PORT } = process.env;
@@ -57,6 +58,7 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await AppDataSource.initialize();
+    await InitDB.initDefaultSettings();
     console.log('DB connected successfully');
     if (serverOptions.key && serverOptions.cert) {
       https.createServer(serverOptions, app).listen(PORT, () => {
