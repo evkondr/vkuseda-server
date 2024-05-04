@@ -6,23 +6,27 @@ type TSettings = {
 }
 const setting:TSettings[] = [
   {
-    name: 'header',
+    name: 'Название сайта',
     type: 'text',
   },
   {
-    name: 'slogan',
+    name: 'Слоган',
     type: 'text',
   },
   {
-    name: 'min-price',
+    name: 'Минимальная сумма',
     type: 'text',
   },
   {
-    name: 'max-price',
+    name: 'Максимальная сумма',
     type: 'text',
   },
   {
-    name: 'delivery-on',
+    name: 'Телефон',
+    type: 'text',
+  },
+  {
+    name: 'Возможность заказа',
     type: 'bool',
   },
 ];
