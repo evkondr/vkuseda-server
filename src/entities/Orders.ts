@@ -1,5 +1,5 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn,
+  Entity, Column, PrimaryGeneratedColumn, Generated,
 } from 'typeorm';
 import {
   Length,
@@ -13,7 +13,8 @@ export default class Orders {
   @PrimaryGeneratedColumn('uuid')
     id: string;
 
-  @PrimaryGeneratedColumn('increment')
+  @Column({ type: 'bigint' })
+    @Generated('increment')
     orderNumber: number;
 
   @Column({ type: 'varchar', length: 30 })
