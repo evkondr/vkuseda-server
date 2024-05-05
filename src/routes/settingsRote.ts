@@ -5,7 +5,8 @@ import { UserRole } from '../../types';
 
 const router = Router();
 
-router.get('/', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), SettingsController.getAllSettings);
+router.get('/', SettingsController.getAllSettings);
+router.get('/admin', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), SettingsController.getAllSettings);
 router.post('/update', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), SettingsController.bulkUpdateSettings);
 router.patch('/:id', authMiddleware([UserRole.ADMIN, UserRole.EDITOR]), SettingsController.updateSettings);
 export default router;
