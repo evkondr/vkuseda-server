@@ -26,6 +26,10 @@ const setting:TSettings[] = [
     type: 'text',
   },
   {
+    name: 'Время отключения заказа',
+    type: 'text',
+  },
+  {
     name: 'Возможность заказа',
     type: 'bool',
   },
