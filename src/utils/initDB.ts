@@ -30,6 +30,10 @@ const setting:TSettings[] = [
     type: 'text',
   },
   {
+    name: 'reCAPTCHA',
+    type: 'text',
+  },
+  {
     name: 'Возможность заказа',
     type: 'bool',
   },
