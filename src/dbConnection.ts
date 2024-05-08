@@ -1,7 +1,16 @@
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
 import {
-  LandingNav, MainNav, MenuItems, Categories, Users, Orders, PromoMenu,
+  LandingNav,
+  MainNav,
+  MenuItems,
+  Categories,
+  Users,
+  Orders,
+  PromoMenu,
+  Days,
+  BoolSettings,
+  TextSettings,
 } from './entities';
 
 dotenv.config();
@@ -14,6 +23,16 @@ const AppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   synchronize: true,
-  entities: [LandingNav, MainNav, MenuItems, Categories, Users, Orders, PromoMenu],
+  entities: [
+    LandingNav,
+    MainNav,
+    MenuItems,
+    Categories,
+    Users,
+    Orders,
+    PromoMenu,
+    Days,
+    BoolSettings,
+    TextSettings],
 });
 export default AppDataSource;

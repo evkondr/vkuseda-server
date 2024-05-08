@@ -46,6 +46,10 @@ export type TCartItem = {
   price: number,
   totalPrice: number
 }
+export type Day = {
+  id:string,
+  name:string,
+}
 export type TMenuItemCreateValues = Omit<TMenuItem, 'id'>
 export type TUpdateValues = Partial<TMenuItemCreateValues>
 export type TUserCreateValues = Omit<TUser, 'id'>
