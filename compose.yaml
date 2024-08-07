@@ -1,4 +1,5 @@
-version: "3.9"
+networks:
+  net:
 services:
   postgres:
       image: postgres:16-bullseye
@@ -9,6 +10,8 @@ services:
         - ../postgresql_data:/var/lib/postgresql/data
       ports:
         - "5433:5432"
+      networks:
+        - net
   backend:
     depends_on:
       - postgres
@@ -21,6 +24,8 @@ services:
         - /etc/letsencrypt/:/etc/letsencrypt/
     ports:
       - "4030:4000"
+    networks:
+      - net
   client:
     depends_on:
       - backend
@@ -32,3 +37,5 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - net
