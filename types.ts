@@ -29,7 +29,7 @@ export type TMenuItem = {
   createdBy: Users| undefined,
   category: Categories | undefined,
   price: number,
-  weight: number,
+  weight: string,
   createdAt: string,
   modifiedAt: string,
   isInPromo: boolean,

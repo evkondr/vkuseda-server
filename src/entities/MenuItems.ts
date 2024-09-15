@@ -29,9 +29,8 @@ export default class MenuItems {
   @IsInt()
     price: number;
 
-  @Column('smallint')
-  @IsInt()
-    weight: number;
+  @Column({ type: 'varchar', nullable: true })
+    weight: string;
 
   @Column({ type: 'varchar', length: 15 })
   @IsDate()
